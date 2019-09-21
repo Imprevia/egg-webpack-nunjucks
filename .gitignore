@@ -1,0 +1,7 @@
+.idea/**
+node_modules
+run
+logs
+typings
+typescript
+.vscode

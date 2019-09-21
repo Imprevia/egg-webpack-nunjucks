@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    {% if manifest['common.css'] %}
+        <link rel="stylesheet" href="{{manifest['common.css']}}">
+    {% endif %}
+    {% block head %}{% endblock %}
+</head>
+<body>
+{% block body %}{% endblock %}
+<script src="/public/plug/jquery.js"></script>
+<script src="{{manifest['common.js']}}"></script>
+{% block script %}{% endblock %}
+</body>
+</html>
