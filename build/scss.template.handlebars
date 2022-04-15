@@ -71,17 +71,23 @@ ${{spritesheet_info.strings.name}}: ({{spritesheet.px.width}}, {{spritesheet.px.
 {{#block "sprite-functions"}}
 {{#if options.functions}}
 @mixin sprite-width($sprite) {
-  width: nth($sprite, 5);
+  width: nth($sprite, 5) / 2;
 }
 
 @mixin sprite-height($sprite) {
-  height: nth($sprite, 6);
+  height: nth($sprite, 6) / 2;
 }
 
 @mixin sprite-position($sprite) {
-  $sprite-offset-x: nth($sprite, 3);
-  $sprite-offset-y: nth($sprite, 4);
+  $sprite-offset-x: nth($sprite, 3) / 2;
+  $sprite-offset-y: nth($sprite, 4) / 2;
   background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-size($sprite) {
+  $sprite-width: $spritesheet-width / 2;
+  $sprite-height: $spritesheet-height / 2;
+  background-size: $sprite-width $sprite-height;
 }
 
 @mixin sprite-image($sprite) {
@@ -93,6 +99,7 @@ ${{spritesheet_info.strings.name}}: ({{spritesheet.px.width}}, {{spritesheet.px.
   display:inline-block;
   @include sprite-image($sprite);
   @include sprite-position($sprite);
+  @include sprite-size($sprite);
   @include sprite-width($sprite);
   @include sprite-height($sprite);
 }

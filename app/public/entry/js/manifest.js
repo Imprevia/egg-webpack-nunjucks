@@ -1,0 +1,1 @@
+window.manifest = require('../../../../config/manifest.json')

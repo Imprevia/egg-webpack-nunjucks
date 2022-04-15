@@ -7,6 +7,12 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const { WebpackManifestPlugin } = require("webpack-manifest-plugin");
 const SpritesmithPlugin = require("webpack-spritesmith");
 const _ = require("lodash");
+const WebpackBar = require("webpackbar");
+const BundleAnalyzerPlugin =
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+
+const baseDir = path.resolve("./");
 
 // 生成webpack entry的json数据
 function getEntry(globPath) {
@@ -28,15 +34,26 @@ function getEntry(globPath) {
     if (!entries[key]) {
       entries[key] = [];
     }
-    entries[key].push("./" + entry);
+    entries[key].push(entry);
   }
   return entries;
 }
 
-const entityPath = "./app/public/entry";
-const distPath = "./app/public/dist";
-
+const entityPath = path.join(baseDir, "./app/public/entry");
+const distPath = path.join(baseDir, "./app/public/dist");
+console.log(baseDir);
 const entries = getEntry(entityPath + "/**/!(_)*.@(js|scss)");
+
+function getReport(env) {
+  try {
+    const str = env[2];
+    const obj = JSON.parse(str);
+    return !!obj["report"];
+  } catch (e) {
+    console.error(e);
+    return false;
+  }
+}
 
 module.exports = (env, argv) => {
   const mode = argv.mode;
@@ -50,9 +67,16 @@ module.exports = (env, argv) => {
   } else {
     // 生产环境
 
-    distName += ".[hash:5]";
+    distName += ".[contenthash:5]";
     // 压缩单独的css文件
     plugins.push(new OptimizeCSSAssetsPlugin()); // 压缩css
+  }
+
+  // 打包进度条
+  plugins.push(new WebpackBar());
+
+  if (getReport(env)) {
+    plugins.push(new BundleAnalyzerPlugin());
   }
 
   // 全局变量
@@ -78,17 +102,17 @@ module.exports = (env, argv) => {
   plugins.push(
     new SpritesmithPlugin({
       src: {
-        cwd: path.resolve(__dirname, "app/public/images/icon"),
+        cwd: path.resolve(baseDir, "app/public/images/icon"),
         glob: "*.png",
       },
       spritesmithOptions: {
         padding: 8,
       },
       target: {
-        image: path.resolve(__dirname, "app/public/images/icon-sprites.png"),
+        image: path.resolve(baseDir, "app/public/images/icon-sprites.png"),
         css: [
           [
-            path.resolve(__dirname, "app/public/entry/scss/_icon.scss"),
+            path.resolve(baseDir, "app/public/entry/scss/_icon.scss"),
             {
               format: "handlebars_based_template",
             },
@@ -100,7 +124,7 @@ module.exports = (env, argv) => {
         cssImageRef: `../../images/icon-sprites.png?t=${Date.now()}`,
       },
       customTemplates: {
-        handlebars_based_template: "./scss.template.handlebars",
+        handlebars_based_template: "./build/scss.template.handlebars",
       },
     })
   );
@@ -108,7 +132,7 @@ module.exports = (env, argv) => {
   // 生成manifest，Egg读取manifest，获取打包后的带hash的文件
   plugins.push(
     new WebpackManifestPlugin({
-      fileName: path.join(__dirname, "./config/manifest.json"),
+      fileName: path.join(baseDir, "./config/manifest.json"),
     })
   );
 
@@ -118,18 +142,18 @@ module.exports = (env, argv) => {
     plugins: plugins,
     output: {
       filename: distName + ".js",
-      path: path.resolve(__dirname, distPath),
+      path: path.resolve(baseDir, distPath),
       publicPath: "/public/dist/",
     },
     optimization: {
+      usedExports: true,
       splitChunks: {
         cacheGroups: {
-          commons: {
-            name: "common.lib",
-            chunks: "initial", // initial表示提取入口文件的公共css及js部分
-            minChunks: 2, // 表示提取公共部分最少的文件数
-            minSize: 0, // 表示提取公共部分最小的大小
-            // 如果发现页面中未引用公共文件，加上enforce: true
+          vendors: {
+            name: "chunk-vendors",
+            test: /[\\/]node_modules[\\/]/,
+            priority: 10,
+            chunks: "initial",
           },
         },
       },
@@ -153,12 +177,16 @@ module.exports = (env, argv) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          include: [path.resolve(__dirname, entityPath)],
+          include: [path.resolve(baseDir, entityPath)],
           loader: "babel-loader",
         },
       ],
     },
   };
 
+  if (getReport(env)) {
+    const smp = new SpeedMeasurePlugin();
+    return smp.wrap(config);
+  }
   return config;
 };

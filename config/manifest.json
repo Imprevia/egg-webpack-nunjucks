@@ -1,8 +1,11 @@
 {
-  "css/common.css": "/public/dist/css/common.34986.css",
-  "css/common.js": "/public/dist/css/common.34986.js",
-  "css/index.css": "/public/dist/css/index.34986.css",
-  "css/index.js": "/public/dist/css/index.34986.js",
-  "js/common.js": "/public/dist/js/common.34986.js",
-  "js/index.js": "/public/dist/js/index.34986.js"
+  "js/manifest.js": "/public/dist/js/manifest.51972.js",
+  "js/pages/common.js": "/public/dist/js/pages/common.3d38a.js",
+  "js/pages/index.js": "/public/dist/js/pages/index.bc928.js",
+  "css/common.css": "/public/dist/css/common.4f718.css",
+  "css/common.js": "/public/dist/css/common.31d6c.js",
+  "css/index.css": "/public/dist/css/index.0e716.css",
+  "css/index.js": "/public/dist/css/index.31d6c.js",
+  "common.js": "/public/dist/common.5a191.js",
+  "chunk-vendors.js": "/public/dist/chunk-vendors.dc1e8.js"
 }
