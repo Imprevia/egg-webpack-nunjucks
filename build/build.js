@@ -1,3 +1,4 @@
 const config = require("./webpack.config");
-
-module.exports = config(null, { mode: "production" });
+const env = {};
+// env["report"] = true;
+module.exports = config(env, { mode: "production" });

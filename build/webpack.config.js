@@ -11,6 +11,7 @@ const WebpackBar = require("webpackbar");
 const BundleAnalyzerPlugin =
   require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
 const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
+const DelBuildCssGenerateJsWebpackPlugin = require("./del-build-css-generate-js-webpack-plugin");
 
 const baseDir = path.resolve("./");
 
@@ -41,16 +42,14 @@ function getEntry(globPath) {
 
 const entityPath = path.join(baseDir, "./app/public/entry");
 const distPath = path.join(baseDir, "./app/public/dist");
-console.log(baseDir);
 const entries = getEntry(entityPath + "/**/!(_)*.@(js|scss)");
 
 function getReport(env) {
   try {
-    const str = env[2];
-    const obj = JSON.parse(str);
-    return !!obj["report"];
+    const str = env["report"];
+    return !!str;
   } catch (e) {
-    console.error(e);
+    // console.error(e);
     return false;
   }
 }
@@ -59,6 +58,7 @@ module.exports = (env, argv) => {
   const mode = argv.mode;
   let plugins = [];
   let distName = "[name]";
+  let chunkName = "chunk";
   if (argv.mode === "development") {
     // 开发环境
 
@@ -68,6 +68,7 @@ module.exports = (env, argv) => {
     // 生产环境
 
     distName += ".[contenthash:5]";
+    chunkName += ".[contenthash:5]";
     // 压缩单独的css文件
     plugins.push(new OptimizeCSSAssetsPlugin()); // 压缩css
   }
@@ -136,6 +137,10 @@ module.exports = (env, argv) => {
     })
   );
 
+  plugins.push(
+    new DelBuildCssGenerateJsWebpackPlugin({ path: `${distPath}/css`, mode })
+  );
+
   const config = {
     entry: entries,
     mode: argv.mode,
@@ -144,6 +149,7 @@ module.exports = (env, argv) => {
       filename: distName + ".js",
       path: path.resolve(baseDir, distPath),
       publicPath: "/public/dist/",
+      chunkFilename: chunkName + ".js",
     },
     optimization: {
       usedExports: true,
