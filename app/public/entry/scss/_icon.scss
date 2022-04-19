@@ -18,8 +18,8 @@ $active-time-width: 121px;
 $active-time-height: 121px;
 $active-time-total-width: 159px;
 $active-time-total-height: 121px;
-$active-time-image: '../../images/icon-sprites.png?t=1650281436088';
-$active-time: (0px, 0px, 0px, 0px, 121px, 121px, 159px, 121px, '../../images/icon-sprites.png?t=1650281436088', 'active_time', );
+$active-time-image: '../../images/icon-sprites.png?t=1650350114795';
+$active-time: (0px, 0px, 0px, 0px, 121px, 121px, 159px, 121px, '../../images/icon-sprites.png?t=1650350114795', 'active_time', );
 $zoom-big-name: 'zoom_big';
 $zoom-big-x: 129px;
 $zoom-big-y: 0px;
@@ -29,13 +29,13 @@ $zoom-big-width: 30px;
 $zoom-big-height: 29px;
 $zoom-big-total-width: 159px;
 $zoom-big-total-height: 121px;
-$zoom-big-image: '../../images/icon-sprites.png?t=1650281436088';
-$zoom-big: (129px, 0px, -129px, 0px, 30px, 29px, 159px, 121px, '../../images/icon-sprites.png?t=1650281436088', 'zoom_big', );
+$zoom-big-image: '../../images/icon-sprites.png?t=1650350114795';
+$zoom-big: (129px, 0px, -129px, 0px, 30px, 29px, 159px, 121px, '../../images/icon-sprites.png?t=1650350114795', 'zoom_big', );
 $spritesheet-width: 159px;
 $spritesheet-height: 121px;
-$spritesheet-image: '../../images/icon-sprites.png?t=1650281436088';
+$spritesheet-image: '../../images/icon-sprites.png?t=1650350114795';
 $spritesheet-sprites: ($active-time, $zoom-big, );
-$spritesheet: (159px, 121px, '../../images/icon-sprites.png?t=1650281436088', $spritesheet-sprites, );
+$spritesheet: (159px, 121px, '../../images/icon-sprites.png?t=1650350114795', $spritesheet-sprites, );
 
 // The provided mixins are intended to be used with the array-like variables
 //

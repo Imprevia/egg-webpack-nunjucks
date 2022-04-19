@@ -26,7 +26,9 @@
     "egg": "^2.6.1",
     "egg-scripts": "^2.6.0",
     "egg-view-nunjucks": "^2.3.0",
-    "lodash": "^4.17.20"
+    "ip": "^1.1.5",
+    "lodash": "^4.17.20",
+    "nacos": "^2.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",

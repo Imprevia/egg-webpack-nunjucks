@@ -9,6 +9,10 @@ export default () => {
   };
 
   config.middleware = ["webpack"];
-
+  config.nacos = {
+    serviceName: "cloud-consumer-order-web",
+    serverAddress: "172.18.0.2:30000",
+    namespase: "public",
+  };
   return config;
 };
