@@ -149,7 +149,7 @@ module.exports = (env, argv) => {
       filename: distName + ".js",
       path: path.resolve(baseDir, distPath),
       publicPath: "/public/dist/",
-      chunkFilename: chunkName + ".js",
+      chunkFilename: distName + ".js",
     },
     optimization: {
       usedExports: true,

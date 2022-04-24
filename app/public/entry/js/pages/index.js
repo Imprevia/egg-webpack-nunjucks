@@ -1,8 +1,11 @@
-import $ from "jquery";
 async function indexPage() {
-  const common = await import("./common");
-  common.log(111111);
+  const [jquery, common] = await Promise.all([
+    import("jquery"),
+    import("./common"),
+  ]);
+  const $ = jquery.default;
   $("div").click(function () {
+    $("body").css({ background: "red" });
     alert(222222);
   });
 }
